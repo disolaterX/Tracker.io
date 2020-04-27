@@ -5,5 +5,6 @@ module.exports = (app) => {
   })
   app.post("/update", (req, res) => {
     console.log(req.body);
+    res.json({ hello: 'other side' })
   })
 }
