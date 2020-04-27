@@ -1,0 +1,17 @@
+node_modules
+npm-debug.log
+docs/*.html
+dump.rdb
+certs
+.idea
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+*.dump
+*.DS_Store
+
+# jest
+coverage
