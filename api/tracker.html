@@ -20,16 +20,10 @@
                 longitude: position.coords.longitude,
                 timestamp: position.timestamp,
             }
-            fetch(`${window.origin}/update`, {
+            await fetch(`${window.origin}/update`, {
                 method: 'post',
                 body: JSON.stringify(data)
-            }).then(function (response) {
-                console.log('herer');
-                console.log(response);
-            }).then(function (data) {
-                console.log(data);
-
-            });
+            })
         }
 
         function errorHandler(err) {
