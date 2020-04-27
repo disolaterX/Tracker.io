@@ -56,7 +56,7 @@
                 .then(res => {
                     for (var i = 0; i < res.length; i++) {
                         var div = document.createElement("div");
-                        div.innerHTML = `Lat: ${res[i].latitude}, Lon: ${res[i].longitude}, Time: ${new Date(res[i].timestamp).toLocaleDateString()}`
+                        div.innerHTML = `Lat: ${res[i].latitude}, Lon: ${res[i].longitude}, Time: ${new Date(res[i].timestamp).toLocaleString()}`
                         mainContainer.appendChild(div);
                     }
                 })
