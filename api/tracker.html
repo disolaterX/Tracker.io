@@ -2,6 +2,7 @@
 <html>
 
 <body>
+    <div id="myData"></div>
     <script>
         var options = {
             enableHighAccuracy: true,
@@ -9,26 +10,56 @@
             maximumAge: 0
         };
 
-        if (navigator.geolocation) {
-            navigator.geolocation.watchPosition(showLocation, errorHandler, options);
-        } else { console.log("Geolocation is not supported by this browser."); }
+        var mainContainer = document.getElementById("myData");
 
+        var username;
+        var person = prompt("Please enter your name:");
+        if (person == null || person == "") {
+            alert("Enter Name in order to use app")
+            location.reload();
+        } else {
+            username = person
+        }
+        if (username) {
+            if (navigator.geolocation) {
+                navigator.geolocation.watchPosition(showLocation, errorHandler, options);
+                // setInterval(() => {
+                //     navigator.geolocation.getCurrentPosition(showLocation);
+                // }, 10000);
+            } else { alert("Geolocation is not supported by this browser."); }
+        }
         async function showLocation(position) {
             var data = {
                 accuracy: position.coords.accuracy,
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude,
                 timestamp: position.timestamp,
+                username: username
             }
             await fetch(`${window.origin}/update`, {
-                method: 'post',
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            await fetch(`${window.origin}/get`, {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify(data)
             })
                 .then(res => res.json())
                 .then(res => {
-                    console.log(res);
+                    for (var i = 0; i < res.length; i++) {
+                        var div = document.createElement("div");
+                        div.innerHTML = `Lat: ${res[i].latitude}, Lon: ${res[i].longitude}, Time: ${new Date(res[i].timestamp).toLocaleDateString()}`
+                        mainContainer.appendChild(div);
+                    }
                 })
-                .catch(err => console.error(err))
         }
 
         function errorHandler(err) {
